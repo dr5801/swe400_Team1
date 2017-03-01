@@ -2,6 +2,7 @@ package data_source;
 import static org.junit.Assert.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -54,13 +55,13 @@ public class TestDatabaseGateway
 	@Test
 	public void testGettingStripNailUPCs() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
+		HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
 		String[] upcArray = {"5453432345", "4343434543", "9876784727", "6565459876", "4343432345"};
 	
 		int i = 0;
-		for(InventoryItemDTO dto : dtoList)
+		for(Integer key : dtoList.keySet())
 		{
-			assertEquals(upcArray[i], dto.getUpc());
+			assertEquals(upcArray[i], dtoList.get(key).getUpc());
 			i++;
 		}
 	}

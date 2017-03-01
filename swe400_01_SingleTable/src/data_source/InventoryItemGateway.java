@@ -320,7 +320,6 @@ public class InventoryItemGateway
 		String sqlStatement = ("SELECT id,className FROM InventoryItem");
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		ResultSet resultSet = preparedStatement.executeQuery();
-//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
 		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
@@ -499,13 +498,14 @@ public class InventoryItemGateway
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItemDTO> getAllStripNails() throws ClassNotFoundException, SQLException 
+	public static HashMap<Integer, InventoryItemDTO> getAllStripNails() throws ClassNotFoundException, SQLException 
 	{
 		String sqlStatement = "select * from InventoryItem where className=?";
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		preparedStatement.setString(1, "StripNail");
 		ResultSet resultSet = preparedStatement.executeQuery();
-		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
 		{
@@ -517,7 +517,7 @@ public class InventoryItemGateway
 			iiDTO.setLength(resultSet.getDouble("length"));
 			iiDTO.setNumberInStrip(resultSet.getInt("numberInStrip"));
 			iiDTO.setClassName("StripNail");
-			listInventoryItemDTO.add(iiDTO);
+			listInventoryItemDTO.put(iiDTO.getId(), iiDTO);
 		}
 		
 		resultSet.close();

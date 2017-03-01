@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -461,19 +462,19 @@ public class UpdateItem {
 			stripNailList = new ArrayList<StripNail>();
 			buttonList = new ArrayList<JRadioButton>();
 			
-			List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();
+			HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();
 			List<LinkTableDTO> listLinkTableDTO = LinkTableGateway.queryDBForStripNails(powerTool.getId());
 			
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+			for(Integer key : listInventoryItemDTO.keySet())
 			{
-				StripNail stripNail = new StripNail(iiDTO.getId());
+				StripNail stripNail = new StripNail(listInventoryItemDTO.get(key).getId());
 				stripNailList.add(stripNail);
 				
 				JRadioButton jrb = new JRadioButton(stripNail.toString());
 				
 				for(LinkTableDTO ltDTO : listLinkTableDTO)
 				{
-					if(iiDTO.getId() == ltDTO.getStripNailID())
+					if(listInventoryItemDTO.get(key).getId() == ltDTO.getStripNailID())
 					{
 						jrb.setSelected(true);
 						break;

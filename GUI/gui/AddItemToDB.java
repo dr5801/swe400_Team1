@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -162,10 +163,10 @@ public class AddItemToDB {
 					
 					try {
 						
-						List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();
-						for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+						HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();
+						for(Integer key : listInventoryItemDTO.keySet())
 						{
-							StripNail stripNail = new StripNail(iiDTO.getId());
+							StripNail stripNail = new StripNail(listInventoryItemDTO.get(key).getId());
 							stripNailList.add(stripNail);
 							
 							JRadioButton jrb = new JRadioButton(stripNail.toString());

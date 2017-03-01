@@ -131,10 +131,10 @@ public class PowerToolInput
 		boolean done = false;
 		while(!done)
 		{
-			List<InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
-			for(InventoryItemDTO dto : dtoList)
+			HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
+			for(Integer key : dtoList.keySet())
 			{
-				System.out.println(dto.getUpc());
+				System.out.println(dtoList.get(key).getUpc());
 			}
 			
 			System.out.println("Which one would you like to add :");

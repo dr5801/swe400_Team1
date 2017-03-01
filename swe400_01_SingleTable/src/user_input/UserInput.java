@@ -350,11 +350,11 @@ public class UserInput
 			int i = 0;
 			if(item instanceof PowerTool)
 			{
-				List<InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
+				HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.getAllStripNails();
 				
-				for(InventoryItemDTO dto : dtoList)
+				for(Integer key : dtoList.keySet())
 				{
-					stripNail = new StripNail(dto.getId());
+					stripNail = new StripNail(dtoList.get(key).getId());
 					itemList.add(stripNail);
 					i++;
 					System.out.println(i + ". " + stripNail.toString());

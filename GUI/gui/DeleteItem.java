@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.GridBagLayout;
 
@@ -352,10 +353,10 @@ public class DeleteItem {
 		buttonList = new ArrayList<JRadioButton>();
 		itemList = new ArrayList<InventoryItem>();
 		
-		List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();	
-		for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();	
+		for(Integer key : listInventoryItemDTO.keySet())
 		{
-			StripNail stripNail = new StripNail(iiDTO.getId());
+			StripNail stripNail = new StripNail(listInventoryItemDTO.get(key).getId());
 			itemList.add((InventoryItem) stripNail);
 			
 			JRadioButton jrb = new JRadioButton(stripNail.toString());

@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import domain.*;
@@ -196,11 +197,11 @@ public class ItemToUpdatePrompt
 			break;
 			
 		case "StripNail":
-			List<InventoryItemDTO> listInventoryItemDTO_SN = InventoryItemGateway.getAllStripNails();
+			HashMap<Integer, InventoryItemDTO> listInventoryItemDTO_SN = InventoryItemGateway.getAllStripNails();
 			stripNailsList = new ArrayList<StripNail>();
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO_SN)
+			for(Integer key : listInventoryItemDTO_SN.keySet())
 			{
-				StripNail stripNail = new StripNail(iiDTO.getId());
+				StripNail stripNail = new StripNail(listInventoryItemDTO_SN.get(key).getId());
 				stripNailsList.add(stripNail);
 				
 				jrb = new JRadioButton(stripNail.toString());
