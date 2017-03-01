@@ -2,6 +2,7 @@ package user_input;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,21 +45,59 @@ public class UserInput
 				validChoice = validateSearchAddUpdateOrEnd(input);
 			}
 			
-			/* based off the user's input, decide what to do next */
-			switch(Integer.parseInt(input))
-			{
-				case 1:
+			HashMap<Integer, Runnable> command = new HashMap<Integer, Runnable>();
+			command.put(1, ()->{
+				try {
 					itemUPC(sc);
-					break;
-				case 2:
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ItemNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			command.put(2, ()->{
+				try {
 					addItemToDB(sc);
-					break;
-				case 3:
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ItemNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			command.put(3, ()->{
+				try {
 					updatePrompt(sc);
-					break;
-				case 4:
-					run = false;
-					break;
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ItemNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			if(Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 3)
+			{
+				command.get(Integer.parseInt(input)).run();
+			}
+			else
+			{
+				run = false;
 			}
 		}while(run);	
 		sc.close();

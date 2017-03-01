@@ -81,12 +81,13 @@ public class Runner
 			if(!stripList.isEmpty())
 			{
 				System.out.println("Works with:");
+				
+				for(Integer key : stripList.keySet())
+				{
+					System.out.println(stripList.get(key).toString());
+				}
 			}	
 			
-			for(Integer key : stripList.keySet())
-			{
-				System.out.println(stripList.get(key).toString());
-			}
 		}
 		else if(mappedObjects.get(item.getId()).getClassName().equals("StripNail"))
 		{
