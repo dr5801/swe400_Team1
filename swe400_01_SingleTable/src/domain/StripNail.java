@@ -2,6 +2,7 @@ package domain;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import data_source.*;
 import exceptions.ItemNotFoundException;
@@ -14,7 +15,7 @@ import exceptions.ItemNotFoundException;
 public class StripNail extends Fastener implements LoadInterface
 {
 	protected int numberInStrip;
-	protected List<PowerTool> powerToolList;
+	protected HashMap<Integer, PowerTool> mappedPowerTools;
 
 	/**
 	 * Finder Constructor that calls queries the database for the specified strip nail by their ID
@@ -100,13 +101,13 @@ public class StripNail extends Fastener implements LoadInterface
 	 * @throws ClassNotFoundException 
 	 * @throws ItemNotFoundException 
 	 */
-	public List<PowerTool> getPowerToolList() throws ClassNotFoundException, SQLException, ItemNotFoundException 
+	public HashMap<Integer, PowerTool> getPowerToolList() throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		if(this.powerToolList == null)
+		if(this.mappedPowerTools == null)
 		{
 			this.load();
 		}
-		return this.powerToolList;
+		return this.mappedPowerTools;
 	}
 	
 	/**
@@ -119,11 +120,11 @@ public class StripNail extends Fastener implements LoadInterface
 	 */
 	public void addPowerToolToList(PowerTool tool) throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
-		if(this.powerToolList == null)
+		if(this.mappedPowerTools == null)
 		{
 			this.load();
 		}
-		this.powerToolList.add(tool);
+		this.mappedPowerTools.put(tool.getId(), tool);
 	}
 
 	/** 
@@ -145,12 +146,12 @@ public class StripNail extends Fastener implements LoadInterface
 	@Override
 	public void load() throws SQLException, ClassNotFoundException, ItemNotFoundException 
 	{
-		this.powerToolList = new ArrayList<PowerTool>();
+		this.mappedPowerTools = new HashMap<Integer, PowerTool>();
 		List<LinkTableDTO> listLinkTableDTO = LinkTableGateway.queryDBForPowerTools(this.getId());
 		for(LinkTableDTO ltDTO : listLinkTableDTO)
 		{
 			PowerTool powerTool = new PowerTool(ltDTO.getPowerToolID());
-			if(!this.powerToolList.contains(powerTool))
+			if(!this.mappedPowerTools.containsKey(powerTool))
 			{
 				this.addPowerToolToList(powerTool);
 			}
@@ -167,20 +168,12 @@ public class StripNail extends Fastener implements LoadInterface
 	 */
 	public void removePowerToolFromList(PowerTool powerTool) throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		if(this.powerToolList == null)
+		if(this.mappedPowerTools == null)
 		{
 			this.load();
 		}
 		
-		List<Object> toRemove = new ArrayList<>();
-		for(PowerTool pTool : this.powerToolList)
-		{
-			if(comparePowerTools(pTool, powerTool))
-			{
-				toRemove.add(pTool);
-			}
-		}	
-		this.powerToolList.removeAll(toRemove);
+		this.mappedPowerTools.remove(powerTool.getId());
 	}
 
 	/**

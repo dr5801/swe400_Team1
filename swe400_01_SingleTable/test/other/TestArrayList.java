@@ -2,6 +2,7 @@ package other;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -62,17 +63,13 @@ public class TestArrayList
 	 */
 	public void testRetrieveNailsFromArrayList() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItem> returnSet = Runner.getList();
-
-		for(int i = 0; i < Nails.values().length; i++)
+		HashMap<Integer, InventoryItem> returnSet = Runner.getList();
+		
+		for(Nails nail : Nails.values())
 		{
-			InventoryItem item = returnSet.get(indexOfArrayList);
-
-			assertEquals(uniqueTestID, item.getId());
-			assertEquals(Nails.values()[i].getUpc(), item.getUpc());
-			assertEquals(Nails.values()[i].getManufacturerID(), item.getManufacturerID());
-			assertEquals(Nails.values()[i].getPrice(), item.getPrice());
-			indexOfArrayList++;
+			assertEquals(nail.getUpc(), returnSet.get(uniqueTestID).getUpc());
+			assertEquals(nail.getManufacturerID(), returnSet.get(uniqueTestID).getManufacturerID());
+			assertEquals(nail.getPrice(), returnSet.get(uniqueTestID).getPrice());
 			uniqueTestID++;
 		}
 	}
@@ -85,17 +82,13 @@ public class TestArrayList
 	 */
 	public void testRetrieveToolsFromArrayList() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItem> returnSet = Runner.getList();
-
-		for(int i = 0; i < Tools.values().length; i++)
+		HashMap<Integer, InventoryItem> returnSet = Runner.getList();
+		
+		for(Tools tool : Tools.values())
 		{
-			InventoryItem item = returnSet.get(indexOfArrayList);
-
-			assertEquals(uniqueTestID, item.getId());
-			assertEquals(Tools.values()[i].getUpc(), item.getUpc());
-			assertEquals(Tools.values()[i].getManufacturerID(), item.getManufacturerID());
-			assertEquals(Tools.values()[i].getPrice(), item.getPrice());
-			indexOfArrayList++;
+			assertEquals(tool.getUpc(), returnSet.get(uniqueTestID).getUpc());
+			assertEquals(tool.getManufacturerID(), returnSet.get(uniqueTestID).getManufacturerID());
+			assertEquals(tool.getPrice(), returnSet.get(uniqueTestID).getPrice());
 			uniqueTestID++;
 		}
 	}
@@ -108,17 +101,13 @@ public class TestArrayList
 	 */
 	public void testRetrieveStripNailsFromArrayList() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItem> returnSet = Runner.getList();
-
-		for(int i = 0; i < StripNails.values().length; i++)
+		HashMap<Integer, InventoryItem> returnSet = Runner.getList();
+		
+		for(StripNails stripNail : StripNails.values())
 		{
-			InventoryItem item = returnSet.get(indexOfArrayList);
-
-			assertEquals(uniqueTestID, item.getId());
-			assertEquals(StripNails.values()[i].getUpc(), item.getUpc());
-			assertEquals(StripNails.values()[i].getManufacturerID(), item.getManufacturerID());
-			assertEquals(StripNails.values()[i].getPrice(), item.getPrice());
-			indexOfArrayList++;
+			assertEquals(stripNail.getUpc(), returnSet.get(uniqueTestID).getUpc());
+			assertEquals(stripNail.getManufacturerID(), returnSet.get(uniqueTestID).getManufacturerID());
+			assertEquals(stripNail.getPrice(), returnSet.get(uniqueTestID).getPrice());
 			uniqueTestID++;
 		}
 	}
@@ -131,17 +120,13 @@ public class TestArrayList
 	 */
 	public void testRetrievePowerToolsFromArrayList() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItem> returnSet = Runner.getList();
+		HashMap<Integer, InventoryItem> returnSet = Runner.getList();
 
-		for(int i = 0; i < PowerTools.values().length; i++)
+		for(PowerTools powerTool : PowerTools.values())
 		{
-			InventoryItem item = returnSet.get(indexOfArrayList);
-
-			assertEquals(uniqueTestID, item.getId());
-			assertEquals(PowerTools.values()[i].getUpc(), item.getUpc());
-			assertEquals(PowerTools.values()[i].getManufacturerID(), item.getManufacturerID());
-			assertEquals(PowerTools.values()[i].getPrice(), item.getPrice());
-			indexOfArrayList++;
+			assertEquals(powerTool.getUpc(), returnSet.get(uniqueTestID).getUpc());
+			assertEquals(powerTool.getManufacturerID(), returnSet.get(uniqueTestID).getManufacturerID());
+			assertEquals(powerTool.getPrice(), returnSet.get(uniqueTestID).getPrice());
 			uniqueTestID++;
 		}
 	}

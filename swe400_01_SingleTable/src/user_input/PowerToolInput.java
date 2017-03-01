@@ -2,6 +2,7 @@ package user_input;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -167,15 +168,15 @@ public class PowerToolInput
 		while(!done)
 		{
 			System.out.println("Which one would you like to remove? (enter the UPC only):");
-			List<StripNail> stripList = powerTool.getStripNailList();
+			HashMap<Integer, StripNail> mappedStripNails = powerTool.getStripNailList();
 			
-			if(!stripList.isEmpty())
+			if(!mappedStripNails.isEmpty())
 			{
 				System.out.println("\nWorks with:");
 				
-				for(StripNail stripNail : stripList) 
+				for(Integer key : mappedStripNails.keySet())
 				{
-					System.out.println(stripNail.toString());
+					System.out.println(mappedStripNails.get(key).toString());
 				}
 				
 				System.out.println("\n");

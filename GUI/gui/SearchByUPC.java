@@ -20,6 +20,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.KeyAdapter;
@@ -153,24 +154,24 @@ public class SearchByUPC {
 			textArea_Output.setText(item.toString());
 			if(item instanceof PowerTool)
 			{
-				List<StripNail> stripList = ((PowerTool) item).getStripNailList();
+				HashMap<Integer, StripNail> stripList = ((PowerTool) item).getStripNailList();
 				textArea_Output.append("\nWorks With:\n");
 				
 				/* print the array list of what stripnails work with the power tools */
-				for(StripNail stripNail : stripList)
+				for(Integer key : stripList.keySet())
 				{
-					textArea_Output.append(stripNail.toString() + "\n");
-				}							
+					textArea_Output.append(stripList.get(key).toString() + "\n");
+				}
 			}
 			else if(item instanceof StripNail)
 			{
-				List<PowerTool> powerToolList = ((StripNail) item).getPowerToolList();
+				HashMap<Integer, PowerTool> powerToolList = ((StripNail) item).getPowerToolList();
 				textArea_Output.append("\nWorks with:\n");
 				
 				/* print the array list of what powertools work witht eh stripnail */
-				for(PowerTool powerTool : powerToolList)
+				for(Integer key : powerToolList.keySet())
 				{
-					textArea_Output.append(powerTool.toString() + "\n");
+					textArea_Output.append(powerToolList.get(key).toString() + "\n");
 				}
 			}
 		}

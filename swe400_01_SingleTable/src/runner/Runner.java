@@ -1,6 +1,7 @@
 package runner;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -18,6 +19,7 @@ import user_input.UserInput;
 public class Runner
 {
 	static List<InventoryItem> listOfObjects = new ArrayList<InventoryItem>();
+	static HashMap<Integer, InventoryItem> mappedObjects = new HashMap<Integer, InventoryItem>();
 	
 	/**
 	 * Creates the table and calls for the insertion of the objects into the table
@@ -45,7 +47,7 @@ public class Runner
 		/* close the connection when finished */
 		ConnectionManager.closeConnection();
 	}
-	
+
 	/**
 	 * Begins user input prompts 
 	 * 
@@ -69,44 +71,36 @@ public class Runner
 	 */
 	public static void printDetailsOfItem(InventoryItem item) throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		if(item.getClassName().equals("Nail"))
+		System.out.println(mappedObjects.get(item.getId()).toString());
+		
+		if(mappedObjects.get(item.getId()).getClassName().equals("PowerTool"))
 		{
-			System.out.println(item.toString());;
-		}
-		else if(item.getClassName().equals("Tool"))
-		{
-			System.out.println(item.toString());
-		}
-		else if(item.getClassName().equals("PowerTool"))
-		{
-			PowerTool powerTool = (PowerTool) item;
-			System.out.println(powerTool.toString());
-			List<StripNail> stripList = powerTool.getStripNailList();
+			PowerTool powerTool = (PowerTool) mappedObjects.get(item.getId());
+			HashMap<Integer, StripNail> stripList = powerTool.getStripNailList();
 			
 			if(!stripList.isEmpty())
 			{
-				System.out.println("\nWorks with:");
-			}
+				System.out.println("Works with:");
+			}	
 			
-			for(StripNail stripNail : stripList) 
+			for(Integer key : stripList.keySet())
 			{
-				System.out.println(stripNail.toString());
+				System.out.println(stripList.get(key).toString());
 			}
 		}
-		else if(item.getClassName().equals("StripNail"))
+		else if(mappedObjects.get(item.getId()).getClassName().equals("StripNail"))
 		{
-			StripNail stripNail = (StripNail) item;
-			System.out.println(stripNail.toString());
-			List<PowerTool> powerToolList = stripNail.getPowerToolList();
+			StripNail stripNail = (StripNail) mappedObjects.get(item.getId());
+			HashMap<Integer, PowerTool> powerToolList = (HashMap<Integer, PowerTool>) stripNail.getPowerToolList();
 			
 			if(!powerToolList.isEmpty())
 			{
-				System.out.println("\nWorks with:");
-			}
-			
-			for(PowerTool powerTool : powerToolList) 
-			{
-				System.out.println(powerTool.toString());
+				System.out.println("Works with:");
+				
+				for(Integer key : powerToolList.keySet())
+				{
+					System.out.println(powerToolList.get(key).toString());
+				}
 			}
 		}
 	}
@@ -125,7 +119,7 @@ public class Runner
 		
 		for(InventoryItemDTO dto : dtoList)
 		{
-			listOfObjects.add(InventoryItem.matchClassAndConstruct(dto.getId(), dto.getClassName()));
+			mappedObjects.put(dto.getId(), InventoryItem.matchClassAndConstruct(dto.getId(), dto.getClassName()));
 		}
 	}
 
@@ -136,8 +130,8 @@ public class Runner
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItem> getList() throws ClassNotFoundException, SQLException
+	public static HashMap<Integer, InventoryItem> getList() throws ClassNotFoundException, SQLException
 	{
-		return listOfObjects;
+		return mappedObjects;
 	}
 }

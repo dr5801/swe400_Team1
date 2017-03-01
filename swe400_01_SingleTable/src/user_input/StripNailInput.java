@@ -2,6 +2,7 @@ package user_input;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import data_source.*;
@@ -96,20 +97,45 @@ public class StripNailInput
 			System.out.println("2. Remove a compatible powertool?");
 			System.out.println("3. Go back to main prompt");
 			String input = sc.nextLine();
-			switch(Integer.parseInt(input))
+			
+			HashMap<Integer, Runnable> command = new HashMap<Integer, Runnable>();
+			command.put(1, ()->{
+				try {
+					UserInput.addCompatibles(sc, stripNail);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ItemNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			command.put(2, ()->{
+				try {
+					removeCompatibilities(sc, stripNail);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ItemNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			if(Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 3)
 			{
-			case 1:
-				UserInput.addCompatibles(sc, stripNail);
+				command.get(Integer.parseInt(input)).run();
 				valid = true;
-				break;
-			case 2:
-				removeCompatibilities(sc, stripNail);
-				valid = true;
-				break;
-			case 3:
-				valid = true;
-				break;
-			default:
+			}
+			else
+			{
 				System.out.println("Error: Not a valid option\n");
 			}
 		}
@@ -132,15 +158,16 @@ public class StripNailInput
 		while(!done)
 		{
 			System.out.println("Which one would you like to remove? (enter the UPC only)");
-			List<PowerTool> powerToolList = stripNail.getPowerToolList();
+			
+			HashMap<Integer, PowerTool> powerToolList = stripNail.getPowerToolList();
 			
 			if(!powerToolList.isEmpty())
 			{
 				System.out.println("\nWorks with:");
 				
-				for(PowerTool powerTool : powerToolList)
+				for(Integer key : powerToolList.keySet())
 				{
-					System.out.println(powerTool.toString());
+					System.out.println(powerToolList.get(key).toString());
 				}
 				
 				System.out.println("\n");

@@ -2,6 +2,7 @@ package domain;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -155,26 +156,28 @@ public class TestPowerTool extends DBTest
 	public void testGetList() throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
 		MockPowerTool testClass = new MockPowerTool(16);
-		List<StripNail> myList = testClass.getStripNailList();
+		HashMap<Integer, StripNail> myList = testClass.getStripNailList();
 		
 		/*Asserts that load method is called upon invoking getStripNailList()  */
 		assertEquals(1, this.loadCounter);			
 		
-		List<StripNail> stripList = new ArrayList<StripNail>();
-		stripList.add(new StripNail(11));
-		stripList.add(new StripNail(12));
-		stripList.add(new StripNail(13));
-		stripList.add(new StripNail(14));
-		stripList.add(new StripNail(15));
+		HashMap<Integer, StripNail> newStripList = new HashMap<Integer, StripNail>();
+		newStripList.put(11, new StripNail(11));
+		newStripList.put(12, new StripNail(12));
+		newStripList.put(13, new StripNail(13));
+		newStripList.put(14, new StripNail(14));
+		newStripList.put(15, new StripNail(15));
 		
-		for(int i = 0; i < myList.size(); i++)
+		for(Integer key : myList.keySet())
 		{
-			assertEquals(myList.get(i).getUpc(), stripList.get(i).getUpc());
-			assertEquals(myList.get(i).getManufacturerID(), stripList.get(i).getManufacturerID());
-			assertEquals(myList.get(i).getPrice(), stripList.get(i).getPrice());
-			assertEquals(myList.get(i).getLength(), stripList.get(i).getLength(), 0.001);
-			assertEquals(myList.get(i).getNumberInStrip(), stripList.get(i).getNumberInStrip());
-			assertEquals(myList.get(i).getClassName(), stripList.get(i).getClassName());
+			assertEquals(myList.get(key).getId(), newStripList.get(key).getId());
+			assertEquals(myList.get(key).getUpc(), newStripList.get(key).getUpc());
+			assertEquals(myList.get(key).getManufacturerID(), newStripList.get(key).getManufacturerID());
+			assertEquals(myList.get(key).getPrice(), newStripList.get(key).getPrice());
+			assertEquals(myList.get(key).getLength(), newStripList.get(key).getLength(), 0.0001);
+			assertEquals(myList.get(key).getNumberInStrip(), newStripList.get(key).getNumberInStrip());
+			assertEquals(myList.get(key).getClassName(), newStripList.get(key).getClassName());
+			
 		}
 	}
 	
@@ -192,23 +195,23 @@ public class TestPowerTool extends DBTest
 		StripNail snAdd = new StripNail(11);
 		
 		pt.addStripNailToList(snAdd);
-		List<StripNail> myList = pt.getStripNailList();
+		HashMap<Integer, StripNail> myList = pt.getStripNailList();
 		
 		StripNail sn = new StripNail(11);
 		StripNail sn2 = new StripNail(12);
-		List<StripNail> stripList = new ArrayList<StripNail>();
-		stripList.add(sn);
-		stripList.add(sn2);
-		stripList.add(snAdd);
-	
-		for(int i = 0; i < myList.size(); i++)
+		
+		HashMap<Integer, StripNail> newStripList = new HashMap<Integer, StripNail>();
+		newStripList.put(sn.getId(), sn);
+		newStripList.put(sn2.getId(), sn2);
+		
+		for(Integer key : myList.keySet())
 		{
-			assertEquals(myList.get(i).getUpc(), stripList.get(i).getUpc());
-			assertEquals(myList.get(i).getManufacturerID(), stripList.get(i).getManufacturerID());
-			assertEquals(myList.get(i).getPrice(), stripList.get(i).getPrice());
-			assertEquals(myList.get(i).getLength(), stripList.get(i).getLength(), 0.001);
-			assertEquals(myList.get(i).getNumberInStrip(), stripList.get(i).getNumberInStrip());
-			assertEquals(myList.get(i).getClassName(), stripList.get(i).getClassName());
+			assertEquals(myList.get(key).getUpc(), newStripList.get(key).getUpc());
+			assertEquals(myList.get(key).getManufacturerID(), newStripList.get(key).getManufacturerID());
+			assertEquals(myList.get(key).getPrice(), newStripList.get(key).getPrice());
+			assertEquals(myList.get(key).getLength(), newStripList.get(key).getLength(), 0.001);
+			assertEquals(myList.get(key).getNumberInStrip(), newStripList.get(key).getNumberInStrip());
+			assertEquals(myList.get(key).getClassName(), newStripList.get(key).getClassName());
 		}
 	}
 	
@@ -233,10 +236,10 @@ public class TestPowerTool extends DBTest
 	public void testRemoveStripNail() throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
 		PowerTool powerTool = new PowerTool(21);
-		List<StripNail> stripNails = powerTool.getStripNailList();
+		HashMap<Integer, StripNail> stripNails = powerTool.getStripNailList();
 		assertEquals(2, stripNails.size());
 		
-		StripNail stripNail = stripNails.get(1);
+		StripNail stripNail = stripNails.get(15);
 		powerTool.removeStripNailFromList(stripNail);
 		
 		stripNails = powerTool.getStripNailList();

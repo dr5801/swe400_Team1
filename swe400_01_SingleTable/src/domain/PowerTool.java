@@ -1,6 +1,7 @@
 package domain;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import data_source.*;
 import exceptions.ItemNotFoundException;
@@ -14,7 +15,7 @@ public class PowerTool extends InventoryItem implements LoadInterface
 {
 	protected boolean batteryPowered;
 	protected String description;
-	protected List<StripNail> stripNailList;
+	protected HashMap<Integer, StripNail> mappedStripNails;
 	
 	/**
 	 * Finder Constructor that calls queries the database for the specified PowerTool by their ID
@@ -121,14 +122,15 @@ public class PowerTool extends InventoryItem implements LoadInterface
 	 * @throws ClassNotFoundException 
 	 * @throws ItemNotFoundException 
 	 */
-	public List<StripNail> getStripNailList() throws ClassNotFoundException, SQLException, ItemNotFoundException 
+	public HashMap<Integer, StripNail> getStripNailList() throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		if(this.stripNailList == null)
+		
+		if(this.mappedStripNails == null)
 		{
 			this.load();
 		}
 		
-		return this.stripNailList;
+		return this.mappedStripNails;
 	}
 		
 	/**
@@ -141,12 +143,12 @@ public class PowerTool extends InventoryItem implements LoadInterface
 	 */
 	public void addStripNailToList(StripNail stripNail) throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
-		if(this.stripNailList == null)
+		if(this.mappedStripNails == null)
 		{
 			this.load();
 		}
 		
-		this.stripNailList.add(stripNail);
+		this.mappedStripNails.put(stripNail.getId(), stripNail);
 	}
 	
 	/**
@@ -159,20 +161,12 @@ public class PowerTool extends InventoryItem implements LoadInterface
 	 */
 	public void removeStripNailFromList(StripNail stripNail) throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
-		if(this.stripNailList == null)
+		if(this.mappedStripNails == null)
 		{
 			this.load();
 		}
 		
-		List<Object> toRemove = new ArrayList<>();
-		for(StripNail sNail : this.stripNailList)
-		{
-			if(compareStripNails(sNail, stripNail))
-			{
-				toRemove.add(sNail);
-			}
-		}
-		this.stripNailList.removeAll(toRemove);
+		mappedStripNails.remove(stripNail.getId());
 	}
 
 	/**
@@ -217,14 +211,14 @@ public class PowerTool extends InventoryItem implements LoadInterface
 	@Override
 	public void load() throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		this.stripNailList = new ArrayList<StripNail>();
+		this.mappedStripNails = new HashMap<Integer, StripNail>();
+		
 		List<LinkTableDTO> listLinkTableDTO = LinkTableGateway.queryDBForStripNails(this.id);
 		for(LinkTableDTO ltDTO : listLinkTableDTO)
 		{
-			StripNail stripNail = new StripNail(ltDTO.getStripNailID());
-			if(!this.stripNailList.contains(stripNail))
+			if(!this.mappedStripNails.containsKey(ltDTO.getStripNailID()))
 			{
-				this.addStripNailToList(stripNail);
+				mappedStripNails.put(ltDTO.getStripNailID(), new StripNail(ltDTO.getStripNailID()));				
 			}
 		}
 	}

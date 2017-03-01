@@ -371,7 +371,7 @@ public class TestSimulatedInput extends DBTest
 			Scanner scanner = new Scanner(System.in);
 			StripNailInput.stripNailRelationPrompt(scanner, stripNail);
 			System.setIn(System.in);
-			PowerTool powerTool = stripNail.getPowerToolList().get(2);
+			PowerTool powerTool = stripNail.getPowerToolList().get(21);
 			assertEquals(3, stripNail.getPowerToolList().size());
 			assertEquals(21, powerTool.getId());
 			assertEquals("7784452828", powerTool.getUpc());
@@ -411,7 +411,7 @@ public class TestSimulatedInput extends DBTest
 			Scanner scanner = new Scanner(System.in);
 			PowerToolInput.powerToolRelationPrompt(scanner, powerTool);
 			System.setIn(System.in);
-			StripNail stripNail = powerTool.getStripNailList().get(1);
+			StripNail stripNail = powerTool.getStripNailList().get(13);
 			assertEquals(2, powerTool.getStripNailList().size());
 			assertEquals(13, stripNail.getId());
 			assertEquals("9876784727", stripNail.getUpc());
@@ -663,13 +663,6 @@ public class TestSimulatedInput extends DBTest
 		/* simulated the user wanting the stripnail with id 12 */
 		assertTrue(lines.contains(stripNail.toString()));
 		
-		/* stripnail 12 has two compatible powertools it can work with, which get printed out */
-		PowerTool compatible1 = new PowerTool(16);
-		PowerTool compatible2 = new PowerTool(17);
-		
-		assertTrue(lines.contains(compatible1.toString()));
-		assertTrue(lines.contains(compatible2.toString()));
-		
 		/* close connections and delete the output file since it is no longer needed */
 		simulation.close();
 		output.close();
@@ -719,13 +712,6 @@ public class TestSimulatedInput extends DBTest
 			
 			/* simulated the user wanted the powertool with id 21 */
 			assertTrue(lines.contains(powerTool.toString()));
-			
-			/* powertool 21 has two compatible stripnails it can work with, which get printed out */
-			StripNail compatible1 = new StripNail(14);
-			StripNail compatible2 = new StripNail(15);
-			
-			assertTrue(lines.contains(compatible1.toString()));
-			assertTrue(lines.contains(compatible2.toString()));
 		}
 		
 		/* close connections and delete the output file since it is no longer needed */

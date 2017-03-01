@@ -2,6 +2,7 @@ package domain;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -152,23 +153,23 @@ public class TestStripNail extends DBTest
 	public void testGetList() throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
 		MockStripNail stripNail = new MockStripNail(11);
-		List<PowerTool> myList = stripNail.getPowerToolList();
+		HashMap<Integer, PowerTool> myList = stripNail.getPowerToolList();
 		
 		/*Asserts that load method is called upon invoking getStripNailList()  */
 		assertEquals(1, this.loadCounter);			
 		
-		List<PowerTool> ptList = new ArrayList<PowerTool>();
-		ptList.add(new PowerTool(16));
-		ptList.add(new PowerTool(17));
+		HashMap<Integer, PowerTool> newList = new HashMap<Integer, PowerTool>();
+		newList.put(16, new PowerTool(16));
+		newList.put(17, new PowerTool(17));
 		
-		for(int i = 0; i < myList.size(); i++)
+		for(Integer key : myList.keySet())
 		{
-			assertEquals(myList.get(i).getUpc(), ptList.get(i).getUpc());
-			assertEquals(myList.get(i).getManufacturerID(), ptList.get(i).getManufacturerID());
-			assertEquals(myList.get(i).getPrice(), ptList.get(i).getPrice());
-			assertEquals(myList.get(i).getDescription(), ptList.get(i).getDescription());
-			assertFalse(myList.get(i).isBatteryPowered());
-			assertEquals(myList.get(i).getClassName(), ptList.get(i).getClassName());
+			assertEquals(myList.get(key).getUpc(), newList.get(key).getUpc());
+			assertEquals(myList.get(key).getManufacturerID(), newList.get(key).getManufacturerID());
+			assertEquals(myList.get(key).getPrice(), newList.get(key).getPrice());
+			assertEquals(myList.get(key).getDescription(), newList.get(key).getDescription());
+			assertFalse(myList.get(key).isBatteryPowered());
+			assertEquals(myList.get(key).getClassName(), newList.get(key).getClassName());
 		}
 	}
 	
@@ -186,24 +187,24 @@ public class TestStripNail extends DBTest
 		PowerTool ptAdd = new PowerTool(16);
 		
 		stripNail.addPowerToolToList(ptAdd);
-		List<PowerTool> myList = stripNail.getPowerToolList();
+		HashMap<Integer, PowerTool> myList = stripNail.getPowerToolList();
 		
 		PowerTool pt = new PowerTool(16);
 		PowerTool pt2 = new PowerTool(17);
 		
-		List<PowerTool> toolList = new ArrayList<PowerTool>();
-		toolList.add(pt);
-		toolList.add(pt2);
-		toolList.add(ptAdd);
+		HashMap<Integer, PowerTool> newList = new HashMap<Integer, PowerTool>();
+		newList.put(pt.getId(), pt);
+		newList.put(pt2.getId(), pt2);
+		newList.put(ptAdd.getId(), ptAdd);
 	
-		for(int i = 0; i < myList.size(); i++)
+		for(Integer key : myList.keySet())
 		{
-			assertEquals(myList.get(i).getUpc(), toolList.get(i).getUpc());
-			assertEquals(myList.get(i).getManufacturerID(), toolList.get(i).getManufacturerID());
-			assertEquals(myList.get(i).getPrice(), toolList.get(i).getPrice());
-			assertEquals(myList.get(i).getDescription(), toolList.get(i).getDescription());
-			assertFalse(myList.get(i).isBatteryPowered());
-			assertEquals("PowerTool", myList.get(i).getClassName());
+			assertEquals(myList.get(key).getUpc(), newList.get(key).getUpc());
+			assertEquals(myList.get(key).getManufacturerID(), newList.get(key).getManufacturerID());
+			assertEquals(myList.get(key).getPrice(), newList.get(key).getPrice());
+			assertEquals(myList.get(key).getDescription(), newList.get(key).getDescription());
+			assertFalse(myList.get(key).isBatteryPowered());
+			assertEquals(myList.get(key).getClassName(), newList.get(key).getClassName());
 		}
 	}
 	
@@ -228,10 +229,10 @@ public class TestStripNail extends DBTest
 	public void testRemovePowerTool() throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
 		StripNail stripNail = new StripNail(11);
-		List<PowerTool> powerTools = stripNail.getPowerToolList();
+		HashMap<Integer, PowerTool> powerTools = stripNail.getPowerToolList();
 		assertEquals(2, powerTools.size());
 		
-		PowerTool powerTool = powerTools.get(1);
+		PowerTool powerTool = powerTools.get(16);
 		stripNail.removePowerToolFromList(powerTool);
 		
 		powerTools = stripNail.getPowerToolList();
