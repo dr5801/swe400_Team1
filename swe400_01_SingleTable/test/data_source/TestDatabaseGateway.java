@@ -35,15 +35,20 @@ public class TestDatabaseGateway
 	@Test
 	public void testGettingPowerToolUPCs() throws ClassNotFoundException, SQLException
 	{
-		List<InventoryItemDTO> dtoList = InventoryItemGateway.getAllPowerTools();
+		HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.getAllPowerTools();
 		String[] upcArray = {"1231231234", "4445553333", "7657896543", "9993458585", "7654564848", "7784452828"};
 	
 		int i = 0;
-		for(InventoryItemDTO dto : dtoList)
+		for(Integer key : dtoList.keySet())
 		{
-			assertEquals(upcArray[i], dto.getUpc());
+			assertEquals(upcArray[i], dtoList.get(key).getUpc());
 			i++;
 		}
+//		for(InventoryItemDTO dto : dtoList)
+//		{
+//			assertEquals(upcArray[i], dto.getUpc());
+//			i++;
+//		}
 	}
 	
 	/**

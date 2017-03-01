@@ -134,15 +134,14 @@ public class AddItemToDB {
 					buttonList = new ArrayList<JRadioButton>();
 					
 					try {
+						HashMap<Integer, InventoryItemDTO> mappedPowerTools = InventoryItemGateway.getAllPowerTools();
 						
-						List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllPowerTools();
-						for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+						for(Integer key : mappedPowerTools.keySet())
 						{
-							PowerTool powerTool = new PowerTool(iiDTO.getId());
-							powerToolList.add(powerTool);
+							PowerTool powerTool = new PowerTool(mappedPowerTools.get(key).getId());
+							powerToolList.add(new PowerTool(mappedPowerTools.get(key).getId()));
 							
 							JRadioButton jrb = new JRadioButton(powerTool.toString());
-							buttonList.add(jrb);
 							panel_AddCompatibles.add(jrb, gbc_RadioButton);
 						}
 					} catch (ClassNotFoundException e) {

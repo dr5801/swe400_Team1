@@ -209,12 +209,16 @@ public class StripNailInput
 		boolean done = false;
 		while(!done)
 		{
-			List<InventoryItemDTO> dtoList = InventoryItemGateway.getAllPowerTools();
-			for(InventoryItemDTO dto : dtoList)
+			HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.getAllPowerTools();
+
+			for(Integer key : dtoList.keySet())
 			{
-				System.out.println(dto.getUpc());
+				System.out.println(dtoList.get(key).getUpc());
 			}
-			
+//			for(InventoryItemDTO dto : dtoList)
+//			{
+//				System.out.println(dto.getUpc());
+//			}
 			System.out.println("Which one would you like to add :");
 			String input = sc.nextLine();
 			int powerToolID = InventoryItemGateway.getID(input, "PowerTool");

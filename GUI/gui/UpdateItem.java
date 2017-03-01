@@ -495,24 +495,39 @@ public class UpdateItem {
 			powerToolList = new ArrayList<PowerTool>();
 			buttonList = new ArrayList<JRadioButton>();
 			
-			List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllPowerTools();
+			HashMap<Integer, InventoryItemDTO> mappedPowerTools = InventoryItemGateway.getAllPowerTools();
 			List<LinkTableDTO> listLinkTableDTO = LinkTableGateway.queryDBForPowerTools(stripNail.getId());
 			
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+			for(Integer key : mappedPowerTools.keySet())
 			{
-				PowerTool powerTool = new PowerTool(iiDTO.getId());
+				PowerTool powerTool = new PowerTool(mappedPowerTools.get(key).getId());
 				powerToolList.add(powerTool);
 				
 				JRadioButton jrb = new JRadioButton(powerTool.toString());
 				
 				for(LinkTableDTO ltDTO : listLinkTableDTO)
 				{
-					if(iiDTO.getId() == ltDTO.getPowerToolID())
+					if(mappedPowerTools.get(key).getId() == ltDTO.getPowerToolID())
 					{
 						jrb.setSelected(true);
 						break;
 					}
 				}
+//			for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+//			{
+//				PowerTool powerTool = new PowerTool(iiDTO.getId());
+//				powerToolList.add(powerTool);
+//				
+//				JRadioButton jrb = new JRadioButton(powerTool.toString());
+//				
+//				for(LinkTableDTO ltDTO : listLinkTableDTO)
+//				{
+//					if(iiDTO.getId() == ltDTO.getPowerToolID())
+//					{
+//						jrb.setSelected(true);
+//						break;
+//					}
+//				}
 				
 				buttonList.add(jrb);
 				panel_AddCompatibles.add(jrb, gbc_RadioButton);

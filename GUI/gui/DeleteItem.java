@@ -31,7 +31,7 @@ public class DeleteItem {
 	private JFrame frameDeleteItem;
 	private JPanel panel_ListOfItem = new JPanel();
 	private String itemType = null;
-	private List<InventoryItem> itemList;
+	private HashMap<Integer, InventoryItem> itemList;
 	private List<JRadioButton> buttonList;
 	
 	/**
@@ -195,13 +195,14 @@ public class DeleteItem {
 		gbc_RadioButton.gridy = GridBagConstraints.RELATIVE;
 		gbc_RadioButton.anchor = GridBagConstraints.WEST;
 		buttonList = new ArrayList<JRadioButton>();
-		itemList = new ArrayList<InventoryItem>();
+		itemList = new HashMap<Integer, InventoryItem>();
 		
-		List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllNails();	
-		for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+		HashMap<Integer, InventoryItemDTO> mappedNails = InventoryItemGateway.getAllNails();	
+		
+		for(Integer key : mappedNails.keySet())
 		{
-			Nail nail = new Nail(iiDTO.getId());
-			itemList.add((InventoryItem) nail);
+			Nail nail = new Nail(mappedNails.get(key).getId());
+			itemList.put(nail.getId(), (InventoryItem) nail);
 			
 			JRadioButton jrb = new JRadioButton(nail.toString());
 			buttonList.add(jrb);
@@ -245,13 +246,14 @@ public class DeleteItem {
 		gbc_RadioButton.gridy = GridBagConstraints.RELATIVE;
 		gbc_RadioButton.anchor = GridBagConstraints.WEST;
 		buttonList = new ArrayList<JRadioButton>();
-		itemList = new ArrayList<InventoryItem>();
+		itemList = new HashMap<Integer, InventoryItem>();
 		
-		List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllTools();	
-		for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+		HashMap<Integer, InventoryItemDTO> mappedTools = InventoryItemGateway.getAllTools();	
+		
+		for(Integer key : mappedTools.keySet())
 		{
-			Tool tool= new Tool(iiDTO.getId());
-			itemList.add((InventoryItem) tool);
+			Tool tool = new Tool(mappedTools.get(key).getId());
+			itemList.put(tool.getId(), (InventoryItem) tool);
 			
 			JRadioButton jrb = new JRadioButton(tool.toString());
 			buttonList.add(jrb);
@@ -295,13 +297,14 @@ public class DeleteItem {
 		gbc_RadioButton.gridy = GridBagConstraints.RELATIVE;
 		gbc_RadioButton.anchor = GridBagConstraints.WEST;
 		buttonList = new ArrayList<JRadioButton>();
-		itemList = new ArrayList<InventoryItem>();
+		itemList = new HashMap<Integer, InventoryItem>();
 		
-		List<InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllPowerTools();	
-		for(InventoryItemDTO iiDTO : listInventoryItemDTO)
+		HashMap<Integer, InventoryItemDTO> mappedPowerTools = InventoryItemGateway.getAllPowerTools();	
+		
+		for(Integer key : mappedPowerTools.keySet())
 		{
-			PowerTool powerTool = new PowerTool(iiDTO.getId());
-			itemList.add((InventoryItem) powerTool);
+			PowerTool powerTool = new PowerTool(mappedPowerTools.get(key).getId());
+			itemList.put(powerTool.getId(), (InventoryItem) powerTool);
 			
 			JRadioButton jrb = new JRadioButton(powerTool.toString());
 			buttonList.add(jrb);
@@ -351,13 +354,13 @@ public class DeleteItem {
 		gbc_RadioButton.gridy = GridBagConstraints.RELATIVE;
 		gbc_RadioButton.anchor = GridBagConstraints.WEST;
 		buttonList = new ArrayList<JRadioButton>();
-		itemList = new ArrayList<InventoryItem>();
+		itemList = new HashMap<Integer, InventoryItem>();
 		
-		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = InventoryItemGateway.getAllStripNails();	
-		for(Integer key : listInventoryItemDTO.keySet())
+		HashMap<Integer, InventoryItemDTO> mappedStripNails = InventoryItemGateway.getAllStripNails();	
+		for(Integer key : mappedStripNails.keySet())
 		{
-			StripNail stripNail = new StripNail(listInventoryItemDTO.get(key).getId());
-			itemList.add((InventoryItem) stripNail);
+			StripNail stripNail = new StripNail(mappedStripNails.get(key).getId());
+			itemList.put(stripNail.getId(), (InventoryItem) stripNail);
 			
 			JRadioButton jrb = new JRadioButton(stripNail.toString());
 			buttonList.add(jrb);
@@ -374,19 +377,22 @@ public class DeleteItem {
 	 */
 	private void removeStripNails() throws ClassNotFoundException, SQLException, ItemNotFoundException 
 	{
-		for(int index = 0; index < buttonList.size(); index++)
+		int index = 0;
+		for(Integer key : itemList.keySet())
 		{
 			if(buttonList.get(index).isSelected())
 			{
-				StripNail stripNail = (StripNail) itemList.get(index);
+				StripNail stripNail = (StripNail) itemList.get(key);
 				List<LinkTableDTO> listLinkTableDTO = LinkTableGateway.queryDBForPowerTools(stripNail.getId());
 				for(LinkTableDTO ltDTO : listLinkTableDTO)
 				{
 					stripNail.removeCompatiblePowerTool(ltDTO.getPowerToolID());
 				}
+				
 				stripNail.removeFromTable();
 				stripNail = null;
 			}
+			index++;
 		}
 	}
 }

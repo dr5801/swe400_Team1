@@ -167,11 +167,12 @@ public class ItemToUpdatePrompt
 		switch(itemType)
 		{
 		case "Nail":
-			List<InventoryItemDTO> listInventoryItemDTO_Nail = InventoryItemGateway.getAllNails();
+			HashMap<Integer, InventoryItemDTO> mappedNails = InventoryItemGateway.getAllNails();
 			nailsList = new ArrayList<Nail>();
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO_Nail)
+			
+			for(Integer key : mappedNails.keySet())
 			{
-				Nail nail = new Nail(iiDTO.getId());
+				Nail nail = new Nail(mappedNails.get(key).getId());
 				nailsList.add(nail);
 				
 				jrb = new JRadioButton(nail.toString());
@@ -179,14 +180,25 @@ public class ItemToUpdatePrompt
 				buttonList.add(jrb);
 				panel_InventoryItem.add(jrb, gbc_RadioButton);
 			}
+//			for(InventoryItemDTO iiDTO : listInventoryItemDTO_Nail)
+//			{
+//				Nail nail = new Nail(iiDTO.getId());
+//				nailsList.add(nail);
+//				
+//				jrb = new JRadioButton(nail.toString());
+//				buttonGroup.add(jrb);
+//				buttonList.add(jrb);
+//				panel_InventoryItem.add(jrb, gbc_RadioButton);
+//			}
 			break;
 			
 		case "Tool":
-			List<InventoryItemDTO> listInventoryItemDTO_Tool = InventoryItemGateway.getAllTools();
+			HashMap<Integer, InventoryItemDTO>  mappedTools = InventoryItemGateway.getAllTools();
 			toolsList = new ArrayList<Tool>();
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO_Tool)
+			
+			for(Integer key : mappedTools.keySet())
 			{
-				Tool tool = new Tool(iiDTO.getId());
+				Tool tool = new Tool(mappedTools.get(key).getId());
 				toolsList.add(tool);
 				
 				jrb = new JRadioButton(tool.toString());
@@ -194,6 +206,16 @@ public class ItemToUpdatePrompt
 				buttonList.add(jrb);
 				panel_InventoryItem.add(jrb, gbc_RadioButton);
 			}
+//			for(InventoryItemDTO iiDTO : listInventoryItemDTO_Tool)
+//			{
+//				Tool tool = new Tool(iiDTO.getId());
+//				toolsList.add(tool);
+//				
+//				jrb = new JRadioButton(tool.toString());
+//				buttonGroup.add(jrb);
+//				buttonList.add(jrb);
+//				panel_InventoryItem.add(jrb, gbc_RadioButton);
+//			}
 			break;
 			
 		case "StripNail":
@@ -212,11 +234,12 @@ public class ItemToUpdatePrompt
 			break;
 			
 		case "PowerTool":
-			List<InventoryItemDTO> listInventoryItemDTO_PT = InventoryItemGateway.getAllPowerTools();
+			HashMap<Integer, InventoryItemDTO> mappedPowerTools = InventoryItemGateway.getAllPowerTools();
 			powerToolsList = new ArrayList<PowerTool>();
-			for(InventoryItemDTO iiDTO : listInventoryItemDTO_PT)
+			
+			for(Integer key : mappedPowerTools.keySet())
 			{
-				PowerTool powerTool = new PowerTool(iiDTO.getId());
+				PowerTool powerTool = new PowerTool(mappedPowerTools.get(key).getId());
 				powerToolsList.add(powerTool);
 				
 				jrb = new JRadioButton(powerTool.toString());
@@ -224,6 +247,16 @@ public class ItemToUpdatePrompt
 				buttonList.add(jrb);
 				panel_InventoryItem.add(jrb, gbc_RadioButton);
 			}
+//			for(InventoryItemDTO iiDTO : listInventoryItemDTO_PT)
+//			{
+//				PowerTool powerTool = new PowerTool(iiDTO.getId());
+//				powerToolsList.add(powerTool);
+//				
+//				jrb = new JRadioButton(powerTool.toString());
+//				buttonGroup.add(jrb);
+//				buttonList.add(jrb);
+//				panel_InventoryItem.add(jrb, gbc_RadioButton);
+//			}
 			break;
 			
 		}

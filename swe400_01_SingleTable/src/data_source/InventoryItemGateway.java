@@ -504,7 +504,6 @@ public class InventoryItemGateway
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		preparedStatement.setString(1, "StripNail");
 		ResultSet resultSet = preparedStatement.executeQuery();
-//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
 		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
@@ -532,13 +531,14 @@ public class InventoryItemGateway
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItemDTO> getAllPowerTools() throws ClassNotFoundException, SQLException
+	public static HashMap<Integer, InventoryItemDTO> getAllPowerTools() throws ClassNotFoundException, SQLException
 	{
 		String sqlStatement = "select * from InventoryItem where className=?";
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		preparedStatement.setString(1, "PowerTool");
 		ResultSet resultSet = preparedStatement.executeQuery();
-		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
 		{
@@ -550,7 +550,7 @@ public class InventoryItemGateway
 			iiDTO.setDescription(resultSet.getString("description"));
 			iiDTO.setBatteryPowered(resultSet.getBoolean("batteryPowered"));
 			iiDTO.setClassName("StripNail");
-			listInventoryItemDTO.add(iiDTO);
+			listInventoryItemDTO.put(iiDTO.getId(), iiDTO);
 		}
 		
 		resultSet.close();
@@ -565,13 +565,14 @@ public class InventoryItemGateway
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItemDTO> getAllNails() throws ClassNotFoundException, SQLException
+	public static HashMap<Integer, InventoryItemDTO> getAllNails() throws ClassNotFoundException, SQLException
 	{
 		String sqlStatement = "select * from InventoryItem where className=?";
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		preparedStatement.setString(1, "Nail");
 		ResultSet resultSet = preparedStatement.executeQuery();
-		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
 		{
@@ -583,7 +584,7 @@ public class InventoryItemGateway
 			iiDTO.setLength(resultSet.getDouble("length"));
 			iiDTO.setNumberInBox(resultSet.getInt("numberInBox"));
 			iiDTO.setClassName("Nail");
-			listInventoryItemDTO.add(iiDTO);
+			listInventoryItemDTO.put(iiDTO.getId(), iiDTO);
 		}
 		
 		resultSet.close();
@@ -598,13 +599,14 @@ public class InventoryItemGateway
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItemDTO> getAllTools() throws ClassNotFoundException, SQLException
+	public static HashMap<Integer, InventoryItemDTO> getAllTools() throws ClassNotFoundException, SQLException
 	{
 		String sqlStatement = "select * from InventoryItem where className=?";
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		preparedStatement.setString(1, "Tool");
 		ResultSet resultSet = preparedStatement.executeQuery();
-		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
 		{
@@ -615,7 +617,7 @@ public class InventoryItemGateway
 			iiDTO.setPrice(resultSet.getInt("price"));
 			iiDTO.setDescription(resultSet.getString("description"));
 			iiDTO.setClassName("Tool");
-			listInventoryItemDTO.add(iiDTO);
+			listInventoryItemDTO.put(iiDTO.getId(), iiDTO);
 		}
 		
 		resultSet.close();
