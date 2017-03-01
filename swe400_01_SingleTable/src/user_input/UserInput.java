@@ -189,7 +189,6 @@ public class UserInput
 			System.out.println("Please enter a UPC ");
 			
 			String upcCode = sc.nextLine();
-			
 			String className = null;
 			
 			switch(itemAssociation)

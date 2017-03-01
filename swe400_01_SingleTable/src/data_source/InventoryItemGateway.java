@@ -1,6 +1,7 @@
 package data_source;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -314,19 +315,20 @@ public class InventoryItemGateway
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static List<InventoryItemDTO> createList() throws ClassNotFoundException, SQLException
+	public static HashMap<Integer, InventoryItemDTO> createList() throws ClassNotFoundException, SQLException
 	{
 		String sqlStatement = ("SELECT id,className FROM InventoryItem");
 		PreparedStatement preparedStatement = ConnectionManager.getConnection().prepareStatement(sqlStatement);
 		ResultSet resultSet = preparedStatement.executeQuery();
-		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+//		List<InventoryItemDTO> listInventoryItemDTO = new ArrayList<InventoryItemDTO>();
+		HashMap<Integer, InventoryItemDTO> listInventoryItemDTO = new HashMap<Integer, InventoryItemDTO>();
 		
 		while(resultSet.next())
 		{
 			InventoryItemDTO iiDTO = new InventoryItemDTO();
 			iiDTO.setId(resultSet.getInt("id"));
 			iiDTO.setClassName(resultSet.getString("className"));
-			listInventoryItemDTO.add(iiDTO);
+			listInventoryItemDTO.put(iiDTO.getId(), iiDTO);
 		}
 		
 		resultSet.close();

@@ -131,7 +131,10 @@ public class StripNailInput
 			
 			if(Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 3)
 			{
-				command.get(Integer.parseInt(input)).run();
+				if(Integer.parseInt(input) != 3)
+				{
+					command.get(Integer.parseInt(input)).run();
+				}
 				valid = true;
 			}
 			else

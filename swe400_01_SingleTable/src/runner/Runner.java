@@ -116,12 +116,18 @@ public class Runner
 	 */
 	public static void createList() throws ClassNotFoundException, SQLException, ItemNotFoundException
 	{
-		List<InventoryItemDTO> dtoList = InventoryItemGateway.createList();
+		HashMap<Integer, InventoryItemDTO> dtoList = InventoryItemGateway.createList();
 		
-		for(InventoryItemDTO dto : dtoList)
+		
+		for(Integer key : dtoList.keySet())
 		{
-			mappedObjects.put(dto.getId(), InventoryItem.matchClassAndConstruct(dto.getId(), dto.getClassName()));
+			mappedObjects.put(key, InventoryItem.matchClassAndConstruct(key, dtoList.get(key).getClassName()));
 		}
+		
+//		for(InventoryItemDTO dto : dtoList)
+//		{
+//			mappedObjects.put(dto.getId(), InventoryItem.matchClassAndConstruct(dto.getId(), dto.getClassName()));
+//		}
 	}
 
 	/**
